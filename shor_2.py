@@ -1,3 +1,4 @@
+
 # Block 1
 import QuantumRingsLib
 from QuantumRingsLib import QuantumRegister, AncillaRegister, ClassicalRegister, QuantumCircuit
@@ -49,7 +50,7 @@ def iqft_cct(qc, b, n):
     qc.barrier()
     return
 
-def plot_histogram(counts, title=""):
+def plot_histogram (counts, title=""):
     """
     Plots the histogram of the counts
 
@@ -65,7 +66,7 @@ def plot_histogram(counts, title=""):
         None
 
     """
-    fig, ax = plt.subplots(figsize=(10, 7))
+    fig, ax = plt.subplots(figsize =(10, 7))
     plt.xlabel("States")
     plt.ylabel("Counts")
     mylist = [key for key, val in counts.items() for _ in range(val)]
@@ -77,10 +78,8 @@ def plot_histogram(counts, title=""):
 
     maxFreq = max(counts.values())
     plt.ylim(ymax=np.ceil(maxFreq / 10) * 10 if maxFreq % 10 else maxFreq + 10)
+    # Show plot
     plt.title(title)
-
-    # Save the plot as an image file
-    plt.savefig("histogram.png")
     plt.show()
     return
 
