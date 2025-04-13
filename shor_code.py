@@ -88,10 +88,32 @@ def plot_histogram(counts, title=""):
 # Block 3
 # Shor’s algorithm to factorize 15 using 7^x mod 15.
 ## Sas: no. = exponent + working bits
+##  increasing inputbits (x = {0,1}^n) increases the range of values of x (exponent) that we calculate,
+##  thus having more data to base our factorisation from
+##  HOWEVER! also increases the number of Modular Exponentiation (U^2n) gates,
+##  so ig it increases complexity in polynomial time?
+###     apparently, this should be around ceil(2 log_2 N)    (e.g. N = 15, n ~~ 8, but can be smaller for small inputs)
 inputbits = 5
+##  workingbits should be able to encode all the values uptil N?
+###     heuristic: math.ceil(log_2(N))
 workingbits = 5 
 numberofqubits = inputbits + workingbits
 shots = 1024
+
+N = 15
+a = 7
+## we change a using the CIRCUIT itself!!! no way to encode that here yet...
+## SAME FOR N!!! the positioning of the gates determines a, N
+##  also, changing workingbits doesn't necessarily change the structure
+##  (the gaps between switches should be same?),
+##  but it does need more gates in each U^2n for proper bit shifting.
+##  lastly, changing n increases the number of U^2n's to make.
+
+## gpt says precompute powers of a? for the number of inputbits
+## these are then multiplied into the working bits if |x_k> = |1>
+a_powers = [math.pow(a, math.pow(2, i)) % N for i in range(inputbits)]
+
+## food for thought, may not even need to think about circuits? maybe could do just ket maths directly
 
 # InitializeDebugger()
 
