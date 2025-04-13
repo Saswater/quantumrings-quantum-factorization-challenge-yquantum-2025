@@ -86,7 +86,7 @@ def apply_constant_adder(qc, y, carries, C):
 # Registers
 a = QuantumRegister(3, "a")       # 3-bit number to add (unchanged)
 b = QuantumRegister(3, "b")       # 3-bit number to add into (in-place sum)
-c = QuantumRegister(3, "c")       # carry[0:3] and final cleanup bit
+c = AncillaRegister(3, "c")       # carry[0:3] and final cleanup bit
 out = ClassicalRegister(3, "out") # measurement
 
 qc = QuantumCircuit(a, b, c, out)
@@ -96,7 +96,7 @@ qc = QuantumCircuit(a, b, c, out)
 qc.x(a[0])
 qc.x(a[1])
 qc.x(b[0])
-qc.x(b[1])
+# qc.x(b[1])
 
 # --- Ripple-Carry Adder Logic (Cuccaro adder)
 # Forward carry propagation
