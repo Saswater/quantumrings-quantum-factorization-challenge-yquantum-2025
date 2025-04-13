@@ -33,30 +33,11 @@ def twos_comp(qc, r, one, result, ancilla):
         qc (QuantumCircuit): The quantum circuit.
         r (QuantumRegister): The quantum register to take the two's complement of.
         negative_r (QuantumRegister): An ancilla register to store intermediate results.
-
-    Returns:
-        None
     """
-    # Step 1: Flip all the bits in the register (NOT operation)
-    # qc.x(ancilla[0])                # set 1st carry to 1
     for i in range(len(r)):     # for each digit
-        # qc.cx(r[i], result[i])      # copy r to result
-        # qc.x(result[i])             # invert result
         qc.x(r[i])
-        # qc.ccx(result[i], ancilla[i], ancilla[i+1])     # next carry = result AND carry (i.e. 1 + 1 = "1"0, 1 carry)
-        # qc.cx(ancilla[i], result[i])                    # result = result XOR carry (i.e. 1 + 1 = 1"0", 0 current)
-
-    # qc.x(ancilla[0])                # reset
-    # for i in range(len(r)):     # for each digit
-    #     qc.cx(result[i], r[i])      # copy r to result
-    #     qc.x(r[i])             # invert result
-    #     qc.ccx(r[i], ancilla[i], ancilla[i+1])     # next carry = result AND carry (i.e. 1 + 1 = "1"0, 1 carry)
-    #     qc.cx(ancilla[i], r[i])                    # result = result XOR carry (i.e. 1 + 1 = 1"0", 0 current)
     
-    
-    # init_regs(qc, one, [1])
     add_regs(qc, one, r, result, ancilla)
-    # del one
 
 
 def init_regs(qc, r, vals: list):
@@ -161,6 +142,41 @@ def add_regs(qc, a, b, r, c):
 
 #     # Step 6: Uncompute the two's complement of the divisor
 #     twos_comp(qc, divisor, ancilla)
+
+
+def get_nth_bit(num, n):
+    assert n >= 0, "Bit position must be non-negative"
+    return (num >> n) & 1
+
+def bits_list(num, n):
+    return [get_nth_bit(num,i) for i in reversed(range(n))]
+
+
+# def apply_comparator(qc, r, N, N_reg, flag):
+#     """
+#     Sets flag = 1 if value in r >= N.
+#     - r: QuantumRegister of n bits (LSB first)
+#     - N: classical integer threshold
+#     - flag: index of a 1-qubit ancilla
+#     """
+#     n = len(r)
+#     # transfer N into the register; this assumes N <= 2^n!! and that result is empty
+#     init_regs(qc, N_reg, bits_list(N, n))
+#     # N_bin = bin(N)[2:].zfill(n)  # MSB first
+
+#     for i in reversed(range(n)):
+#         # bit_val = int(N_bin[n - 1 - i])
+#         if bit_val == 0:
+#             # If x[i] == 1 and higher bits are equal → definitely x > N
+#             qc.cx(r[i], flag)
+#             break
+#         elif bit_val == 1:
+#             # If x[i] == 0 → x < N
+#             # Cannot determine without checking higher bits first → skip
+#             continue
+
+
+
 
 
 
