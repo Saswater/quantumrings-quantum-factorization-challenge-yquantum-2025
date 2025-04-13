@@ -89,23 +89,32 @@ def plot_histogram(counts, title=""):
 
 # Block 3
 # Shor’s algorithm to factorize 15 using 7^x mod 15.
-numberofqubits = 7
+## Sas: no. = exponent + working bits
+inputbits = 3
+workingbits = 4
+numberofqubits = inputbits + workingbits
 shots = 1024
 
 # InitializeDebugger()
 
 q = QuantumRegister(numberofqubits , 'q')
-c = ClassicalRegister(4 , 'c')
+## Sas: ONLY NEEDED FOR MEASUREMENT! You measure a qubit INTO a classical bit
+c = ClassicalRegister(inputbits , 'c')
 qc = QuantumCircuit(q, c)
 
+print(f"{qc.qubits=}, {qc.clbits=}, {qc.layout=}")
+
 # Initialize source and target registers
-qc.h(0)
-qc.h(1)
-qc.h(2)
-qc.x(6)
+## Sas: because all qubits are initialised as zeros, but we want to initialise the two registers.
+##      We Hadamard the input registers into a superposition to calculate all possible exponents,
+##      and X or NOT the last qubit to initialise the working register into 00..01 = 1 (because a^0 = 1)
+for input_i in range(inputbits):
+    qc.h(input_i)
+qc.x(numberofqubits - 1)
 qc.barrier()
 
 # Modular exponentiation 7^x mod 15
+## Sas: I HAVE NO CLUEEEEEEEEEEEEEE - next thing to figure out. TODO!!!
 qc.cx(q[2],q[4] )
 qc.cx(q[2],q[5] )
 qc.cx(q[6],q[4] )
@@ -116,12 +125,12 @@ qc.cx(q[6],q[4] ) #
 qc.barrier()
 
 # IQFT. Refer to implementation from earlier examples
-iqft_cct (qc, q, 3)
+## Sas: iQFT all the input bits to extract the phase information. We shouldn't need to change this I think?
+iqft_cct (qc, q, inputbits)
 
 # Measure
-qc.measure(q[0], c[0])
-qc.measure(q[1], c[1])
-qc.measure(q[2], c[2])
+for input_i in range(inputbits):
+    qc.measure(q[input_i], c[input_i])
 
 # Execute the circuit
 job = backend.run(qc, shots=shots)
