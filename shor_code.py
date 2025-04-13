@@ -10,8 +10,6 @@ import numpy as np
 import math
 
 provider = QuantumRingsProvider(
-    token='rings-200.3Tz9cWkMa9OaL58h9UDMxU7Zqn8QD24X',
-    name='saswata_majumder@brown.edu'
 )
 backend = provider.get_backend("scarlet_quantum_rings")
 shots = 1024
@@ -90,8 +88,8 @@ def plot_histogram(counts, title=""):
 # Block 3
 # Shor’s algorithm to factorize 15 using 7^x mod 15.
 ## Sas: no. = exponent + working bits
-inputbits = 3
-workingbits = 4
+inputbits = 5
+workingbits = 5 
 numberofqubits = inputbits + workingbits
 shots = 1024
 
@@ -129,7 +127,7 @@ qc.barrier()
 iqft_cct (qc, q, inputbits)
 
 # Measure
-for input_i in range(inputbits):
+for input_i in range(1, inputbits):
     qc.measure(q[input_i], c[input_i])
 
 # Execute the circuit
