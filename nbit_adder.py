@@ -26,10 +26,12 @@ def main():
 
     # a = 011, b = 001, r = 100
     ## maybe another function to init regs?
-    qc.x(a[0])
-    # qc.x(a[1])
-    # qc.x(b[0])
-    qc.x(b[1])
+    # qc.x(a[0])
+    # # qc.x(a[1])
+    # # qc.x(b[0])
+    # qc.x(b[1])
+    init_regs(qc, a, [1,0])
+    init_regs(qc, b, [1,0,0])
 
     add_regs(qc, a,b,c)
     measure_reg(qc, b, out)
