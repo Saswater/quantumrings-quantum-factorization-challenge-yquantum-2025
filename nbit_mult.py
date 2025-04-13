@@ -52,17 +52,17 @@ def main():
     qc = QuantumCircuit(a, b, c, d, out, one)
 
     init_regs(qc, a, [0, 0, 1,0])        # 6
-    init_regs(qc, b, [0, 0,1,1])        # 3
+    init_regs(qc, b, [1, 1,1,1])        # 3
     init_regs(qc, one, [1])
     # init_regs(qc, b, [1, 0])
 
     # add_regs(qc, a, b, c, d)
 
     # multiply(qc, a, b, c, d)
-    twos_comp(qc, a, one, c, d)
+    twos_comp(qc, b, one, c, d)
     # modulus(qc, a, b, c, d, out, one)
     
-    measure_reg(qc, d, out)
+    measure_reg(qc, c, out)
 
     # Execute the circuit
     job = backend.run(qc, shots=shots)

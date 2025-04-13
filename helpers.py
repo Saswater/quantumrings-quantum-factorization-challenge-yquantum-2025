@@ -38,23 +38,24 @@ def twos_comp(qc, r, one, result, ancilla):
         None
     """
     # Step 1: Flip all the bits in the register (NOT operation)
-    qc.x(ancilla[0])                # set 1st carry to 1
+    # qc.x(ancilla[0])                # set 1st carry to 1
     for i in range(len(r)):     # for each digit
-        qc.cx(r[i], result[i])      # copy r to result
-        qc.x(result[i])             # invert result
-        qc.ccx(result[i], ancilla[i], ancilla[i+1])     # next carry = result AND carry (i.e. 1 + 1 = "1"0, 1 carry)
-        qc.cx(ancilla[i], result[i])                    # result = result XOR carry (i.e. 1 + 1 = 1"0", 0 current)
+        # qc.cx(r[i], result[i])      # copy r to result
+        # qc.x(result[i])             # invert result
+        qc.x(r[i])
+        # qc.ccx(result[i], ancilla[i], ancilla[i+1])     # next carry = result AND carry (i.e. 1 + 1 = "1"0, 1 carry)
+        # qc.cx(ancilla[i], result[i])                    # result = result XOR carry (i.e. 1 + 1 = 1"0", 0 current)
 
-    qc.x(ancilla[0])                # reset
-    for i in range(len(r)):     # for each digit
-        qc.cx(result[i], r[i])      # copy r to result
-        qc.x(r[i])             # invert result
-        qc.ccx(r[i], ancilla[i], ancilla[i+1])     # next carry = result AND carry (i.e. 1 + 1 = "1"0, 1 carry)
-        qc.cx(ancilla[i], r[i])                    # result = result XOR carry (i.e. 1 + 1 = 1"0", 0 current)
+    # qc.x(ancilla[0])                # reset
+    # for i in range(len(r)):     # for each digit
+    #     qc.cx(result[i], r[i])      # copy r to result
+    #     qc.x(r[i])             # invert result
+    #     qc.ccx(r[i], ancilla[i], ancilla[i+1])     # next carry = result AND carry (i.e. 1 + 1 = "1"0, 1 carry)
+    #     qc.cx(ancilla[i], r[i])                    # result = result XOR carry (i.e. 1 + 1 = 1"0", 0 current)
     
     
     # init_regs(qc, one, [1])
-    # add_regs(qc, one, r, result, ancilla)
+    add_regs(qc, one, r, result, ancilla)
     # del one
 
 
